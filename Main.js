@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 const MainComponent = (props) => {
+
     const dispatch = useDispatch();
     const stateApp = useSelector(state => state.stateApp);
     const countRef = useRef(Object.keys(stateApp).length-1);
@@ -28,7 +29,10 @@ const MainComponent = (props) => {
     };
 
     return (
-        <View style={{borderWidth: 1, borderColor: 'red', marginTop: 20}}>
+        <View style={{
+            borderWidth: 1,
+            borderColor: 'red',
+            marginTop: 20}}>
             <TouchableOpacity onPress={addProp}>
                 <Text>ADD PROP</Text>
             </TouchableOpacity>
