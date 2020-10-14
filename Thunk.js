@@ -12,7 +12,6 @@ let asyncCount = 0;
 let notAsyncCount = 0;
 
 const Thunk = (props) => {
-
     const dispatch = useDispatch();
     const thunkData = useSelector(state => state.asyncDataThunk);
 
