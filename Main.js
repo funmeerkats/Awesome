@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 const MainComponent = (props) => {
-
+    console.log(111);
     const dispatch = useDispatch();
     const stateApp = useSelector(state => state.stateApp);
     const countRef = useRef(Object.keys(stateApp).length-1);
