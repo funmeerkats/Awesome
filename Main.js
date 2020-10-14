@@ -10,6 +10,8 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
+console.log(111);
+
 const MainComponent = (props) => {
 
     const dispatch = useDispatch();
