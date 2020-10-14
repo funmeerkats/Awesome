@@ -29,7 +29,10 @@ const MainComponent = (props) => {
     };
 
     return (
-        <View style={{borderWidth: 1, borderColor: 'red', marginTop: 20}}>
+        <View style={{
+            borderWidth: 1,
+            borderColor: 'red',
+            marginTop: 20}}>
             <TouchableOpacity onPress={addProp}>
                 <Text>ADD PROP</Text>
             </TouchableOpacity>
