@@ -1,5 +1,7 @@
 import { all, call, fork, put, take, putResolve, takeEvery, takeLatest, select } from 'redux-saga/effects';
 
+console.log(1);
+
 const delay = (ms) => {
     return new Promise((resolve) => {
         setTimeout(() => resolve(), ms);

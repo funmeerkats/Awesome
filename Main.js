@@ -13,7 +13,6 @@ import {
 console.log(111);
 
 const MainComponent = (props) => {
-
     const dispatch = useDispatch();
     const stateApp = useSelector(state => state.stateApp);
     const countRef = useRef(Object.keys(stateApp).length-1);
