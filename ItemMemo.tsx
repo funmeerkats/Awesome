@@ -7,7 +7,12 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
-const ItemMemo = memoComp(({parentData, addProp}) => {
+interface ItemMemoProps {
+    parentData: number
+    addProp(): void;
+}
+
+const ItemMemo:React.FC<ItemMemoProps> = memoComp(({parentData, addProp}) => {
 
     const [item, setItem] = useState(0);
     const [some, setSome] = useState(0);

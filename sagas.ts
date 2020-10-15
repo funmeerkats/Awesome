@@ -1,12 +1,17 @@
 import { all, call, fork, put, take, putResolve, takeEvery, takeLatest, select } from 'redux-saga/effects';
 
-const delay = (ms) => {
+interface actionObj {
+    type: string,
+    [key: string]: any
+}
+
+const delay = (ms: number) => {
     return new Promise((resolve) => {
         setTimeout(() => resolve(), ms);
     });
 };
 
-const fetchData = (ms, action) => dispatch =>
+const fetchData = (ms: number, action: actionObj) => (dispatch: (action: actionObj) => void) =>
     new Promise((resolve) => {
         setTimeout(function () {
             dispatch(action);
@@ -14,27 +19,27 @@ const fetchData = (ms, action) => dispatch =>
         }, ms);
     });
 
-const fetchData2 = (ms, action) =>
+const fetchData2 = (ms: number, action: actionObj) =>
     new Promise((resolve) => {
         setTimeout(() => {
             resolve(action.count);
         }, ms);
     });
 
-const fetchData3 = async (limit) => {
+const fetchData3 = async (limit: number) => {
     const data = await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${limit}`);
     await delay(3000);
     return await data.json();
 };
 
 // worker Saga: будет запускаться на экшены типа `USER_FETCH_REQUESTED`
-function* setCount(action) {
+function* setCount(action: actionObj) {
     try {
         if(action.data.async){
-            const data = yield call(fetchData3,10);
-            // const data = yield putResolve(fetchData(3000, {type: 'ASYNC_SAGA', count: action.data.count}));
-            // const forkEffect = yield fork(fetchData2, 3000, {type: 'ASYNC_SAGA', count: action.data.count});
-            console.log(data);
+            // const data = yield call(fetchData3,10);
+            // const data = yield putResolve<any>(fetchData(3000, {type: 'ASYNC_SAGA', count: action.data.count}));
+            const forkEffect = yield fork<any>(fetchData2, 3000, {type: 'ASYNC_SAGA', count: action.data.count});
+            // console.log(data);
             yield put({type: 'RESET_PROP'});
             // const asyncFetchCount = yield call(fetchData2, 3000, {type: 'ASYNC_SAGA', count: action.data.count});
             // yield put({type: 'ASYNC_SAGA', count: asyncFetchCount});

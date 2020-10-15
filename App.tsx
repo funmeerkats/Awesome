@@ -32,7 +32,7 @@ const App = () => {
     sagaMiddleware.run(MySaga);
 
 // Промис
-    const willIGetNewPhone = new Promise(
+    const willIGetNewPhone = new Promise<PhoneValue>(
         (resolve, reject) => {
             if (isMomHappy) {
                 const phone = {
@@ -49,10 +49,15 @@ const App = () => {
     );
 
 // 2й промис
-    async function showOff(phone) {
-        return new Promise(
+    interface PhoneValue {
+        brand?: string,
+        color?: string
+    }
+
+    async function showOff(phone: PhoneValue) {
+        return new Promise<string>(
             (resolve, reject) => {
-                var message = 'Hey friend, I have a new ' +
+                let message = 'Hey friend, I have a new ' +
                     phone.color + ' ' + phone.brand + ' phone';
 
                 resolve(message);
@@ -112,8 +117,8 @@ const App = () => {
 
     const addSum = () => {
         let x = 0;
-        return (num) => {
-            return new Promise((resolve) => {
+        return (num: number) => {
+            return new Promise<number>((resolve) => {
                 setTimeout(() => {
                         return resolve(x+=num);
                     },
@@ -129,14 +134,14 @@ const App = () => {
 
     const clouser = () => {
         let num = 0;
-        return (sumnum) => {
+        return (sumnum: number) => {
             return num += sumnum;
         }
     };
 
     const clouserHelper = clouser();
 
-    const bubbleSort = (arr) => {
+    const bubbleSort = (arr: number[]): number[] => {
         for(let i = arr.length-1; i >= 0; i--){
             for(let j = 0; j < i; j++){
                 if(arr[j] > arr[j+1]){
@@ -151,7 +156,7 @@ const App = () => {
         return arr;
     };
 
-    const factorial = (n) => {
+    const factorial = (n: number) => {
         let result = 1;
         while(n !== 1){
             result *= n;
@@ -161,11 +166,11 @@ const App = () => {
         return result;
     };
 
-    const factorial2 = (n) => {
+    const factorial2 = (n: number): number => {
         return (n !== 1) ? n*factorial2(n-1) : 1;
     };
 
-    const fib = n => {
+    const fib = (n: number): number => {
         let prev = 0, next = 1;
         for(let i = 0; i < n; i++){
             let temp = next;
@@ -191,29 +196,41 @@ const App = () => {
     //     constructor(name, color){
     //         super(name);
     //         this.color = color;
-    //     }
+    //     
     //
     //     voice(){
     //         console.log(`${this.name} says ${this.color}`);
     //     };
     // }
-    const Animal = function(name){
+
+    interface AnimalObj {
+        name: string,
+        [key: string]: any
+    }
+
+    const Animal = function(this: AnimalObj, name: string){
         this.name = name;
     };
     Animal.prototype.getName = function(){
         console.log(`Animal's name is ${this.name}`);
     };
 
-    const Cat = function(name, color){
+    interface CatObj {
+        name: string,
+        color: string,
+        [key: string]: any
+    }
+
+    const Cat = function(this: CatObj, name: string, color: string){
         // this.constructor.super.call(this, name);
         Animal.call(this, name);
         this.color = color;
     };
 
-    function inherit(child, parent){
+    function inherit(child: CatObj, parent: AnimalObj){
         let F = function(){};
         F.prototype = parent.prototype;
-        child.prototype = new F();
+        child.prototype = new (F as any)();
         child.prototype.constructor = child;
         child.super = parent;
     }
@@ -225,7 +242,7 @@ const App = () => {
     };
 
     const xxx2 = () => {
-        const myCat = new Cat('FFF', 'RED');
+        const myCat = new (Cat as any)('FFF', 'RED');
 
         myCat.voice();
 
