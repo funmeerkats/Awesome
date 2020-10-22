@@ -16,12 +16,11 @@ interface stateObj {
 }
 
 let xxx: boolean = true;
-const Thunk = (props: any) => {
+const Thunk2 = (props: {}) => {
     const [stateData, setStateData] = useState(0);
     const dispatch = useDispatch();
     const thunkData = useSelector((state: stateObj): number => state.asyncDataThunk);
     const refData = useRef(null);
-    const {navigation} = props;
 
     useEffect(() => {
         console.log('render thunk', thunkData);
@@ -36,16 +35,15 @@ const Thunk = (props: any) => {
     }, [thunkData]);
 
     const actionClick = () => {
-        navigation.push('Thunk');
-        // promiseAll([
-        //     Promise.resolve(true),
-        //     Promise.resolve(1),
-        //     Promise.resolve('string'),
-        //     Promise.resolve({}),
-        //     // ...
-        // ]).then((result) => {
-        //     console.log('-------', result);
-        // });
+        promiseAll([
+            Promise.resolve(true),
+            Promise.resolve(1),
+            Promise.resolve('string'),
+            Promise.resolve({}),
+            // ...
+        ]).then((result) => {
+            console.log('-------', result);
+        });
 
         // asyncCount += 10;
         // dispatch(createAsyncActionHelper(asyncCount));
@@ -179,4 +177,4 @@ const Thunk = (props: any) => {
     )
 };
 
-export {Thunk}
+export {Thunk2}
