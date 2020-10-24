@@ -70,7 +70,7 @@ const Thunk = (props: any) => {
     // console.log(memoizeFunc(1,2)); // return memoize 3
 
     function memoize(func: (...args: number[]) => number) {
-        // TODO: implement function!
+        // TODO: implement function
         const cache = new Map();
 
         return function (...args: number[]) {
