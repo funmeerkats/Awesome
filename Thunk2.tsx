@@ -84,6 +84,25 @@ const Thunk2 = (props: {}) => {
 
     }
 
+    function memoize2(func: (...args: number[]) => number) {
+        // TODO: implement function
+        let cache: {[key: string]: number | string} = {};
+
+        return function (...args: number[]) {
+            const result = func(...args);
+
+            if (result === cache[result]) {
+                // return memoize;
+            }
+
+            cache[result] = result;
+
+            return cache;
+
+        }
+
+    }
+
     interface IActionReducer {
         type?: string,
         action?: number | string | object
