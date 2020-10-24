@@ -72,11 +72,12 @@ const Thunk2 = (props: {}) => {
         const cache = new Map();
 
         return function (...args: number[]) {
-            if (cache.has(args)) {
-                return cache.get(args);
+            const key = JSON.stringify(args);
+            if (cache.has(key)) {
+                return cache.get(key);
             }
             const result = func(...args);
-            cache.set(args, result);
+            cache.set(key, result);
 
             return result;
 

@@ -74,11 +74,13 @@ const Thunk = (props: any) => {
         const cache = new Map();
 
         return function (...args: number[]) {
-            if (cache.has(args)) {
-                return cache.get(args);
+            let key = JSON.stringify(args);
+
+            if (cache.has(key)) {
+                return cache.get(key);
             }
             const result = func(...args);
-            cache.set(args, result);
+            cache.set(key, result);
 
             return result;
 
@@ -147,6 +149,33 @@ const Thunk = (props: any) => {
         }
     };
 
+    const func23 = (func: (...args: number[]) => number) => {
+        let cache = new Map();
+
+        return (...args: number[]) => {
+            const key = JSON.stringify(args);
+            if (cache.has(key)) {
+                return Promise.resolve(cache.get(key)); // (*)
+            }
+
+            return new Promise((resolve, reject) => {
+                const result = func(...args);
+                cache.set(key, result);
+                resolve(result);
+            })
+        }
+    };
+
+    const sum2 = (a: number, b: number) => a + b;
+    const func23Helper = func23(sum2);
+    const func23Click = async () => {
+        const result = await func23Helper(2, 3);
+
+        func23Helper(2, 3).then((data) => {
+            console.log(data);
+        });
+    };
+
     return (
         <View style={{marginVertical: 20, borderWidth: 1, borderColor: 'blue'}}>
             <Text ref={refData}>Thunk - {thunkData}; stateData - {stateData}</Text>
@@ -155,6 +184,9 @@ const Thunk = (props: any) => {
             </TouchableOpacity>
             <TouchableOpacity onPress={actionNotAsyncClick}>
                 <Text style={{textAlign: 'center'}}>Send not async Thunk</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={func23Click}>
+                <Text style={{textAlign: 'center'}}>func23Click</Text>
             </TouchableOpacity>
         </View>
     )
